@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container">
+<div class="categories_container">
+  {% for group in groups %}
+    <a href="{% url 'group' group.id %}" style="text-decoration:none; color:black;">
+      <div class="card" style="width: 18rem;">
+        <img src="{{group.imageUrl}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{group.name}}</h5>
+          <p class="card-text">{{group.description|linebreaks|truncatechars:300}}</p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+
+
+
+
+</div>
+</div>
+
+{% endblock %}

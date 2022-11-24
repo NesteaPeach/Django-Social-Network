@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body">
+            <h5>
+                <label>
+                    <i class="fa fa-lemon-o"><span>Lime Group <small style="font-size: 20px;"> Remove Profile</small></span></i>
+                </label>
+            </h5>
+            <p class="card-text">
+                <h5 class="card-title"  style="margin-left: 50px;">
+                    <img src="{{profile.imageUrl}}" style="margin-right: 20px;">  
+                    {{profile.firstname}} {{profile.lastname}}
+                </h5>
+                {% if user.group_set.all %}
+                <h5 style="margin-left: 50px; margin-top: 20px;">
+                    Select new owner to your groups:
+                    {% for group in user.group_set.all %}
+                    <br>
+                    {{group.name}}
+                    {% endfor %}
+                </h5>
+                {% endif %}
+
+              </p>
+          <form action="" method="post">
+            {% csrf_token %}
+            {% if user.group_set.all %}
+            <select class="form-select" style="margin-left: 50px; width: 300px;" name="owner">
+              {% for friend in friends %}
+                <option value="{{friend.user.id}}">{{friend.firstname}} {{friend.lastname}}</option>
+              {% endfor %}
+              </select>
+              {% endif %}
+            <button type="submit" class="btn btn-danger" style="margin-left: 50px; margin-top: 50px;">
+                <i class="fa fa-ban" style="word-spacing: 10px;"> Remove</i>  
+            </button>
+            <a href="{% url 'profile' user.username %}">
+                <button type="button" class="btn btn-primary" style="margin-left: 50px; margin-top: 50px; width: 110px;">
+                    <i class="fa fa-leaf" style="word-spacing: 10px;"> No</i>  
+                </button>
+            </a>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrHErX14zB0Tv9XbHDmC_XFMzXaroGx2sU7w&usqp=CAU"
+        class="img-fluid rounded-start" style="margin-top: 100px;">
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

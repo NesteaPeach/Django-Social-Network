@@ -1,0 +1,94 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class = "container">
+  <div class="card">
+    <div class="card-body">
+      <a href="{% url 'profile' post.user.username %}" style="text-decoration:none ; color:black" >
+      <h5 class="card-title">
+        <img src="{{post.user.profile.imageUrl}}">  
+        {{post.user.profile.firstname}} {{post.user.profile.lastname}}
+    </h5>
+  </a>
+      <small class="card-subtitle mb-2 text-muted">{{post.created|timesince}}</small>
+      {% if post.group != blank  %}
+      <br>
+      <small class="card-subtitle mb-2 text-muted"> Posted in group: {{post.group.name}}</small>
+      {% endif %}
+      <p class="card-text">{{post.body|linebreaks}}
+      </p>
+      <div>
+          <img src="{{post.imageUrl}}" class="img-fluid" alt="...">
+      </div>
+        <form action="" method="post">
+          {% csrf_token %}
+          <!-- likes -->
+          {% if request.user.profile in post.likes.all %}
+          <input type="text" value="{{post.id}}" name="postid" style="display: none;">
+          <button type="submit" class="btn btn-primary">
+                <i class="fa fa-thumbs-down fa-lg"> <small> dislike </small></i>  
+          </button>
+          {% else %}
+          <input type="text" value="{{post.id}}" name="postid" style="display: none;">
+          <button type="submit" class="btn btn-primary">
+            <i class="fa fa-thumbs-up fa-lg"> <small> like </small></i>  
+          </button>
+          {% endif %}
+
+          {% if post.user == request.user %}
+        <a href="{% url 'editpost' post.id%}" class="card-link">
+            <i class="fa fa-cog fa-lg" style="color:#7CBB00 ;"></i>  
+            edit
+        </a>
+        <a href="{% url 'removepost' post.id%}" class="card-link">
+            <i class="fa fa-trash fa-lg" style="color:#7CBB00 ;"></i>  
+            Delete
+        </a>
+        {% endif %}
+
+        </form>
+        <!-- add comment -->
+    <form action="{% url 'addcomment' post.id %}" method="post" style="margin-top: 20px;">
+      {% csrf_token %}
+        <div class="input-group mb-3" style="width:600px;">
+            <textarea name="body" cols="30" rows="1" class="form-control" placeholder="add comment..."></textarea>
+            <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fa fa-comment fa-lg"></i> </button>
+          </div>
+    </form>
+    <small class="card-subtitle mb-2 text-muted">{{post.likes.all.count}} likes</small>
+    <small class="card-subtitle mb-2 text-muted">{{post.comment_set.all.count}} comments</small>
+    </div>
+    </div>
+
+      <!-- comments -->
+      <label style="margin-left:465px ; text-shadow: blanchedalmond 1px 1px;">
+        <i class="fa fa-lemon-o" style="margin-left: 30px;"><span style="margin-left: 10px;">Comments</span></i>
+    </label>
+      {% for comment in comments|dictsortreversed:"created" %}
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            <img src="{{comment.user.profile.imageUrl}}">  
+            {{comment.user.profile.firstname}}  {{comment.user.profile.lastname}}
+        </h5>
+          <small class="card-subtitle mb-2 text-muted">{{comment.created|timesince}}</small>
+          <p class="card-text" style="margin-top: 10px;">{{comment.body}}
+          </p>
+          {% if comment.user == request.user or post.group.owner == request.user %}
+            <a href="{% url 'removecomment' comment.id %}" class="card-link">
+                <i class="fa fa-trash fa-lg" style="color:#7CBB00 ;"></i>  
+                Delete
+            </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      <nav style="margin-left:520px; margin-top:10px ;" >
+        <ul class="pagination">
+          {% for i in page_object.page_range %}
+          <li class="page-item"><a class="page-link" href="{% url 'post' post.id %}?p={{i}}">{{i}}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+{% endblock %}

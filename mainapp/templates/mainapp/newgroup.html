@@ -1,0 +1,41 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body">
+            <h5>
+                <label>
+                    <i class="fa fa-lemon-o"><span>Lime Group <small style="font-size: 25px;"> Create Group</small></span></i>
+                </label>
+            </h5>
+          <form action="" method="post">
+            {% csrf_token %}
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-image fa-lg"></i></span>
+                <input type="text" class="form-control" placeholder="Image URL" name="imageUrl">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-address-card fa-lg"></i></span>
+                <input type="text" class="form-control" placeholder="Group Name" name="name">
+              </div>
+
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-bars fa-lg"></i></span>
+                <textarea name="body" cols="30" rows="3" class="form-control" placeholder="Describe your group" name="body"></textarea>
+              </div>
+            <button type="submit" class="btn btn-primary" style="margin-left: 200px;">
+                <i class="fa fa-cog" style="word-spacing: 10px;"> Save</i>  
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7Qu7Z5lxfFh9c-bTw3ip32ooEpkAAa8Sz7Q&usqp=CAU"
+        class="img-fluid rounded-start" style="margin-top: 100px;">
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

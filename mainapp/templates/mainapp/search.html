@@ -1,0 +1,65 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 style="text-align:center ;">
+        <label>
+            <i class="fa fa-lemon-o"><span> {{groups.all.count}} Groups</span></i>
+        </label>
+    </h1>
+
+    
+<div class="categories_container">
+  {% for item in groups %}
+    <a href="{% url 'group' item.id %}" style="text-decoration:none; color:black;">
+      <div class="card" style="width: 18rem;">
+        <img src="{{item.imageUrl}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{item.name}}</h5>
+          <p class="card-text">{{item.description|linebreaks|truncatechars:300}}</p>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+</div>
+
+    <h1 style="text-align:center ;">
+        <label>
+            <i class="fa fa-lemon-o"><span> {{posts.all.count}} Posts </span></i>
+        </label>
+    </h1>
+    <div class="categories_container">
+    {% for item in posts %}
+    <a href="{% url 'post' item.id %}" style="text-decoration:none; color:black;">
+        <div class="card" style="width: 18rem;">
+          <img src="{{item.imageUrl}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{item.user.profile.firstname}} {{item.user.profile.lastname}}</h5>
+            <p class="card-text">{{item.body|linebreaks|truncatechars:300}}</p>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+</div>
+
+      <h1 style="text-align:center ;">
+        <label>
+            <i class="fa fa-lemon-o"><span> {{users.all.count}} Users</span></i>
+        </label>
+    </h1>
+    <div class="categories_container">
+      {% for item in users %}
+      <a href="{% url 'profile' item.user.username %}" style="text-decoration:none; color:black;">
+        <div class="card" style="width: 18rem;">
+          <img src="{{item.imageUrl}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{item.firstname}} {{item.lastname}}</h5>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+</div>
+
+</div>
+
+{% endblock %}

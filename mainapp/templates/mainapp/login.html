@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body">
+            <h5>
+                <label>
+                    <i class="fa fa-lemon-o"><span>Lime Group <small style="font-size: 25px;"> login</small></span></i>
+                </label>
+            </h5>
+            {% if error %}
+            <div class="alert alert-danger" role="alert">
+              {{error}}
+            </div>
+            {% endif %}
+
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-user fa-lg"></i></span>
+                <input type="text" class="form-control" placeholder="Username" name="username">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-lock fa-lg"></i></span>
+                <input type="password" class="form-control" placeholder="password" name="password">
+              </div>
+            <button type="submit" class="btn btn-primary" style="margin-left: 200px;">
+                <i class="fa fa-check" style="font-weight: bold;"> Log In</i>  
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRIu0k15kavwlRQOG_1P1L4pFAZrPUw4IW-RQ&usqp=CAU" 
+        class="img-fluid rounded-start" style="margin-top: 40px;">
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

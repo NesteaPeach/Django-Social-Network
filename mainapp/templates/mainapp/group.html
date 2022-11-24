@@ -1,0 +1,181 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Group profile section -->
+    <div class="card" style="width: 100%;
+    background-image: url(https://i.pinimg.com/originals/e1/86/eb/e186eb6deeae0c65db343938923d8f79.jpg);
+    background-size: cover;
+    height: 300px;">
+        <div class="row g-0">
+            <div class="col-md-2">
+              <img src="{{group.imageUrl}}">
+            </div>
+            <div class="col-md-4" id="profile-col">
+              <div class="card-body">
+                <h3 class="card-title" style="color: #ffeead ;">{{group.name}}</h3>
+                <p class="card-text" style="color:#ffeead;">created by {{group.owner.profile.firstname}} {{group.owner.profile.lastname}}</p>
+              </div>
+              <div class="card-footer bg-transparent border-success">
+                <p class="card-text" style="color:#ffeead; word-spacing: 10px;">{{like_count}} likes  {{group.post_set.all.count}} posts {{group.users.all.count}} members</p>
+            </div>
+
+            <!-- add new post -->
+            {% if request.user.profile in group.users.all or request.user == group.owner %}
+            <a href="{% url 'grouppost' group.id %}" class="btn btn-primary" style="margin-top: 20px;">
+                <i class="fa fa-envelope"> Add New Post</i> 
+            </a>
+            {% endif %}
+
+            </div>
+            <div class="col-md-4" id = "profile-col"style="margin-top: 10px; margin-left: 150px;">
+                <div class="card-body">
+                    <img src="data:image/png;base64,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" 
+                    class="card-img-top" style="height: 200px; width: 200px; margin-left: 80px; margin-bottom: 20px; border-radius: 50%; border: #ffeead 3px solid;">
+                       
+                    <!-- join group -->
+                          <form action="{% url 'joingroup' group.id %}" method="post">
+                            {% csrf_token %}
+                            {% if group.owner != request.user %}
+                            {% if not request.user.profile in group.users.all %}
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-user-plus"> Join Group</i>  
+                            </button>
+                            {% else %}
+                            <button type="submit" class="btn btn-primary">
+                              <i class="fa fa-ban "> Leave group </i>  
+                            </button>
+                            {% endif %}
+                            {% endif %}
+
+                            {% if group.owner == request.user %}
+                            <a href="{% url 'editgroup' group.id %}" class="btn btn-primary">
+                                <i class="fa fa-cog"> Edit</i> 
+                            </a>
+                            <a href="{% url 'removegroup' group.id %}" class="btn btn-primary">
+                                <i class="fa fa-trash"> Remove</i> 
+                            </a>
+                            {% endif %}
+                        </form>
+
+                    </div>
+              </div>
+          </div>
+      </div>
+      
+
+      {% if request.user.profile in group.users.all or request.user == group.owner %}
+      <!-- group posts secction -->
+    <div class="row">
+        <div class="col-8">
+          {% for post in posts %}
+            <div class="card">
+                <div class="card-body">
+                  <a href="{% url 'profile' post.user.username %}" style="text-decoration:none ; color:black;">
+                  <h5 class="card-title">
+                    <img src="{{post.user.profile.imageUrl}}">  
+                    {{post.user.profile.firstname}} {{post.user.profile.lastname}}
+                </h5>
+              </a>
+                  <small class="card-subtitle mb-2 text-muted">{{post.created|timesince}}</small>
+                    <a href="{% url 'post' post.id %}" style="text-decoration:none ; color:black">
+                      <p class="card-text">{{post.body|linebreaks|truncatechars:300}}
+                      </p>
+                    
+                  <div>
+                      <img src="{{post.imageUrl}}" class="img-fluid" alt="...">
+                  </div>
+                </a>
+
+                <!-- likes -->
+                    <form action="" method="post">
+                      {% csrf_token %}
+                      {% if request.user.profile in post.likes.all %}
+                      <input type="text" value="{{post.id}}" name="postid" style="display:none ;">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-thumbs-down fa-lg">dislike</i>  
+                    </button>
+                    {% else %}
+                    <input type="text" value="{{post.id}}" name="postid" style="display:none ;">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-thumbs-up fa-lg">like</i>  
+                    </button>
+                    {% endif %}
+
+                    {% if post.user == request.user %}
+                    <a href="{% url 'editpost' post.id %}" class="card-link">
+                        <i class="fa fa-cog fa-lg" style="color:#7CBB00 ;"></i>  
+                        edit
+                    </a>
+                    {% endif %}
+                    {% if post.user == request.user or group.owner == request.user %}
+                    <a href="{% url 'removepost' post.id %}" class="card-link">
+                        <i class="fa fa-trash fa-lg" style="color:#7CBB00 ;"></i>  
+                        Delete
+                    </a>
+                    {% endif %}
+                    </form>
+
+                    <!-- addcomment -->
+                <form action="{% url 'addcomment' post.id %}" method="post" style="margin-top: 20px;">
+                  {% csrf_token %}
+                    <div class="input-group mb-3" style="width:600px;">
+                        <textarea name="body" cols="30" rows="1" class="form-control" placeholder="add comment..."></textarea>
+                        <button class="btn btn-outline-success" type="submit" id="button-addon2"><i class="fa fa-comment fa-lg"></i> </button>
+                      </div>
+                </form>
+
+                <small class="card-subtitle mb-2 text-muted">{{post.likes.all.count}} likes</small>
+                <small class="card-subtitle mb-2 text-muted">{{post.comment_set.all.count}} comments</small>
+                </div>
+                </div>
+                {% endfor %}
+        </div>
+        {% endif %}
+        <!-- about section -->
+            <div class="col-4">
+                <div class="card" style="width: 23rem;">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <label>
+                            <i class="fa fa-lemon-o"><span style="margin-left: 10px;">Description</span></i>
+                        </label>
+                      </li>
+                      <li class="list-group-item">
+                        <p class="card-text" style="margin-top: 10px;">{{group.description}}
+                          </p>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- friends -->
+                  {% if request.user.profile in group.users.all %}
+                  <div class="card" style="width: 23rem; height: 30rem; overflow-y: scroll;">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <label>
+                            <i class="fa fa-lemon-o"><span style="margin-left: 10px;">Friends</span></i>
+                        </label>
+                      </li>
+                      {% for friend in group.users.all %}
+                        <a href="{% url 'profile' friend.user.username %}" style="text-decoration:none ;">
+                          <li class="list-group-item">
+                            <h5 class="card-title">
+                                <img src="{{friend.imageUrl}}" style="margin-right: 20px;">  
+                                {{friend.firstname}} {{friend.lastname}}
+                            </h5>
+                          </li>
+                        </a>
+                      {% endfor %} 
+                    </ul>
+                  </div>
+                  {% endif %}
+
+
+            </div>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

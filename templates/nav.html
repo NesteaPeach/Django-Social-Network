@@ -1,0 +1,57 @@
+
+<input type="checkbox" id="menu">
+<nav class="navhome">
+    {% if request.user.is_authenticated %}
+<a href="{% url 'home' %}">
+    <label>
+        <i class="fa fa-lemon-o"><span>Lime Group</span></i>
+    </label>
+</a>
+ {% else %}
+ <label>
+    <i class="fa fa-lemon-o"><span>Lime Group</span></i>
+</label>
+{% endif %}
+<ul>
+    {% if request.user.is_authenticated %}
+    <li>
+        <a href="{% url 'logout' %}">logout</a>
+    </li>
+    {% endif %}
+</ul>
+
+<label for="menu" class="menu-bar">
+    <i class="fa fa-bars"></i>
+</label>
+
+</nav>
+
+<div class = "side-menu">
+    {% if request.user.is_authenticated %}
+    <center>
+        <img src="{{user.profile.imageUrl}}">
+        <br><br>
+
+        <h2>{{user.username}}</h2>
+    </center>
+    <br>
+    <!-- choose icone -->
+        <form action="{% url 'search' %}" method="get" class="d-flex"  >
+            <i class="fa fa-search" style="margin-top: 8px; padding-right: 10px;"></i>
+            <input class="form-control me-2" type="search" placeholder="Search" style="border-radius: 8px;" name="q">
+        </form>
+    <a href="{% url 'home' %}"> <i class="fa fa-home"><span>Feed</span></i></a>
+    <a href="{% url 'profile' user.username %}"> <i class="fa fa-user"><span>My Profile</span></i></a>
+    <a href="{% url 'newpost' %}"> <i class="fa fa-envelope"><span>New Post</span></i></a>
+    <a href="{% url 'allgroup' %}"> <i class="fa fa-users"><span>Groups</span></i></a>
+    <a href="{% url 'newgroup' %}"> <i class="fa fa-plus"><span>Create Group</span></i></a>
+    <a href="{% url 'editprofile' user.username %}"> <i class="fa fa-cog"><span>Edit Profile</span></i></a>
+    <a href="{% url 'logout' %}"> <i class="fa fa-ban"><span>Logout</span></i></a>
+    {% else %}
+    <a href="{% url 'login' %}"> <i class="fa fa-sign-in"><span>Log in</span></i></a>
+    <a href="{% url 'signup' %}"> <i class="fa fa-user-plus"><span>Sign Up</span></i></a>
+    {% endif %}
+
+    
+
+</div>
